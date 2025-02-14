@@ -8,9 +8,11 @@
 #ifndef INC_CONSOLE_H_
 #define INC_CONSOLE_H_
 
-#include "uart_controller.h"
 #include <unordered_map>
 #include <string>
+#include <functional>
+
+#define CONS_VERSION "0.1"
 
 #define CONS_DEBUG 0
 
@@ -20,9 +22,12 @@
 class Console
 {
 public:
+//	using CommandFunction = std::function<void(const std::string&)>;
 	using CommandFuncion = void(*)(const std::string&);
+	using SendFunction = std::function<void(const std::string&)>;
+	using RecieveFuncion = std::function<std::string()>;
 
-	Console(UartController &uart);
+	Console(SendFunction send, RecieveFuncion recieve);
 	virtual ~Console();
 
 	void registerCommand(const std::string &command, CommandFuncion function);
@@ -34,7 +39,8 @@ private:
 	void clear();
 	void verticalLine();
 
-	UartController &m_uart;
+	SendFunction m_send;
+	RecieveFuncion m_recieve;
 	std::unordered_map<std::string, CommandFuncion> m_commands;
 };
 

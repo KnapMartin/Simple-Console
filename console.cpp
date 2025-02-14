@@ -3,8 +3,9 @@
 
 #include <string.h>
 
-Console::Console(UartController &uart)
-	: m_uart{uart}
+Console::Console(SendFunction send, RecieveFuncion recieve)
+	: m_send(send)
+	, m_recieve(recieve)
 	, m_commands{}
 {
 }
@@ -18,11 +19,11 @@ void Console::registerCommand(const std::string &command,
 {
 	m_commands[command] = function;
 
-#if UART_CONSOLE_DEBUG == 1
-	m_uart.send("Registered commands: \n");
+#if CONS_DEBUG == 1
+	m_send("Registered commands: \n");
 	for (auto comm : m_commands)
 	{
-		m_uart.send(comm.first);
+		m_send(comm.first);
 	}
 #endif
 }
@@ -33,15 +34,17 @@ void Console::splash()
 	this->verticalLine();
 	this->verticalLine();
 	this->setCursor(32, 0);
-	m_uart.send("Test Console v0.0\r\n");
+	m_send("Test Console v");
+	m_send(CONS_VERSION);
+	m_send("\r\n");
 	this->verticalLine();
 	this->verticalLine();
 }
 
 void Console::run()
 {
-	m_uart.send("> ");
-	std::string command = m_uart.receive(true);
+	m_send("> ");
+	std::string command = m_recieve();
 
 	uint32_t noMatchCtr{0};
 
@@ -60,7 +63,7 @@ void Console::run()
 
 	if (noMatchCtr == m_commands.size())
 	{
-		m_uart.send("Invalid command.\r\n");
+		m_send("Invalid command.\r\n");
 	}
 }
 
@@ -68,7 +71,7 @@ void Console::clear()
 {
 	for (uint32_t row{0}; row < CONS_ROWS; ++row)
 	{
-		m_uart.send("\r\n");
+		m_send("\r\n");
 	}
 }
 
@@ -79,12 +82,12 @@ void Console::setCursor(const uint32_t x, const uint32_t y)
 
 	for (uint32_t col{0}; col < x; ++col)
 	{
-		m_uart.send(" ");
+		m_send(" ");
 	}
 
 	for (uint32_t row{0}; row < y; ++row)
 	{
-		m_uart.send("\n");
+		m_send("\n");
 	}
 }
 
@@ -92,7 +95,7 @@ void Console::verticalLine()
 {
 	for (uint32_t col{0}; col < CONS_COLS; ++col)
 	{
-		m_uart.send("-");
+		m_send("-");
 	}
-	m_uart.send("\r\n");
+	m_send("\r\n");
 }
