@@ -7,6 +7,7 @@ Console::Console(SendFunction send, RecieveFuncion recieve)
 	: m_send(send)
 	, m_recieve(recieve)
 	, m_commands{}
+	, m_commandCount{0}
 {
 }
 
@@ -15,17 +16,17 @@ Console::~Console()
 }
 
 void Console::registerCommand(const std::string &command,
-		CommandFuncion function)
+		CommandFuncion function, const uint32_t matchLength)
 {
-	m_commands[command] = function;
-
-#if CONS_DEBUG == 1
-	m_send("Registered commands: \n");
-	for (auto comm : m_commands)
+	if (m_commandCount < CONS_MAX_COMMANDS)
 	{
-		m_send(comm.first);
+		m_commands[m_commandCount] = std::make_tuple(command, function, matchLength);
+		++m_commandCount;
 	}
-#endif
+	else
+	{
+		return;
+	}
 }
 
 void Console::splash()
@@ -44,24 +45,40 @@ void Console::splash()
 void Console::run()
 {
 	m_send("> ");
-	std::string command = m_recieve();
 
+	const char* commandRec = m_recieve().c_str();
 	uint32_t noMatchCtr{0};
 
-	for (auto comm : m_commands)
+	for (uint32_t commIdx{0}; commIdx < m_commandCount; ++commIdx)
 	{
-		if (!strcmp(comm.first.c_str(), command.c_str()))
+		uint32_t matchLength = std::get<2>(m_commands[commIdx]);
+		const char* commandReg = std::get<0>(m_commands[commIdx]).c_str();
+
+		if (!matchLength)
 		{
-			CommandFuncion func = comm.second;
-			func(command);
+			if (!strcmp(commandRec, commandReg))
+			{
+				std::get<1>(m_commands[commIdx])(commandRec);
+			}
+			else
+			{
+				++noMatchCtr;
+			}
 		}
 		else
 		{
-			++noMatchCtr;
+			if (!strncmp(commandRec, commandReg, matchLength))
+			{
+				std::get<1>(m_commands[commIdx])(commandRec);
+			}
+			else
+			{
+				++noMatchCtr;
+			}
 		}
 	}
 
-	if (noMatchCtr == m_commands.size())
+	if (noMatchCtr == m_commandCount)
 	{
 		m_send("Invalid command.\r\n");
 	}
@@ -87,6 +104,17 @@ void Console::setCursor(const uint32_t x, const uint32_t y)
 
 	for (uint32_t row{0}; row < y; ++row)
 	{
+		m_send("\n");
+	}
+}
+
+void Console::printRegistered()
+{
+	m_send("Registered commands:\r\n");
+	for (uint32_t commIdx{0}; commIdx < m_commandCount; ++commIdx)
+	{
+		std::string comm = std::get<0>(m_commands[commIdx]);
+		m_send(comm);
 		m_send("\n");
 	}
 }
