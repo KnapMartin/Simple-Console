@@ -15,12 +15,9 @@
 
 #define CONS_VERSION "0.3"
 
-#define CONS_DEBUG 1
-
 constexpr uint32_t CONS_COLS{80};
 constexpr uint32_t CONS_ROWS{24};
-
-constexpr size_t CONS_MAX_COMMANDS{10};
+constexpr uint32_t CONS_MAX_COMMANDS{10};
 
 class Console
 {
@@ -32,15 +29,25 @@ public:
 	Console(SendFunction send, RecieveFuncion recieve);
 	virtual ~Console();
 
-	void registerCommand(const std::string &command, CommandFunction function, const uint32_t matchLength = 0);
-	void splash();
-	void run();
-	void printRegistered();
+	enum class State
+	{
+		None = -1,
+		Ok = 0,
+		ErrorRegisterFull,
+		ErrorInvalidCommand,
+		ErrorXPos,
+		ErrorYPos,
+	};
+
+	State registerCommand(const std::string &command, CommandFunction function, const uint32_t matchLength = 0);
+	State splash();
+	State run();
+	State printRegistered();
 
 private:
-	void setCursor(const uint32_t x, const uint32_t y);
-	void clear();
-	void verticalLine();
+	State setCursor(const uint32_t x, const uint32_t y);
+	State clear();
+	State verticalLine();
 
 	SendFunction m_send;
 	RecieveFuncion m_recieve;

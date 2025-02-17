@@ -15,21 +15,22 @@ Console::~Console()
 {
 }
 
-void Console::registerCommand(const std::string &command,
+Console::State Console::registerCommand(const std::string &command,
 		CommandFunction function, const uint32_t matchLength)
 {
 	if (m_commandCount < CONS_MAX_COMMANDS)
 	{
 		m_commands[m_commandCount] = std::make_tuple(command, function, matchLength);
 		++m_commandCount;
+		return State::Ok;
 	}
 	else
 	{
-		return;
+		return State::ErrorRegisterFull;
 	}
 }
 
-void Console::splash()
+Console::State Console::splash()
 {
 	this->clear();
 	this->verticalLine();
@@ -40,9 +41,11 @@ void Console::splash()
 	m_send("\r\n");
 	this->verticalLine();
 	this->verticalLine();
+
+	return State::Ok;
 }
 
-void Console::run()
+Console::State Console::run()
 {
 	m_send("> ");
 
@@ -81,21 +84,26 @@ void Console::run()
 	if (missingMatchCtr == m_commandCount)
 	{
 		m_send("Invalid command.\r\n");
+		return State::ErrorInvalidCommand;
 	}
+
+	return State::Ok;
 }
 
-void Console::clear()
+Console::State Console::clear()
 {
 	for (uint32_t row{0}; row < CONS_ROWS; ++row)
 	{
 		m_send("\r\n");
 	}
+
+	return State::Ok;
 }
 
-void Console::setCursor(const uint32_t x, const uint32_t y)
+Console::State Console::setCursor(const uint32_t x, const uint32_t y)
 {
-	if (x > CONS_COLS) return;
-	if (y > CONS_ROWS) return;
+	if (x > CONS_COLS) return State::ErrorXPos;
+	if (y > CONS_ROWS) return State::ErrorYPos;
 
 	for (uint32_t col{0}; col < x; ++col)
 	{
@@ -106,9 +114,11 @@ void Console::setCursor(const uint32_t x, const uint32_t y)
 	{
 		m_send("\n");
 	}
+
+	return State::Ok;
 }
 
-void Console::printRegistered()
+Console::State Console::printRegistered()
 {
 	m_send("Registered commands:\r\n");
 	for (uint32_t commIdx{0}; commIdx < m_commandCount; ++commIdx)
@@ -117,13 +127,17 @@ void Console::printRegistered()
 		m_send(comm);
 		m_send("\n");
 	}
+
+	return State::Ok;
 }
 
-void Console::verticalLine()
+Console::State Console::verticalLine()
 {
 	for (uint32_t col{0}; col < CONS_COLS; ++col)
 	{
 		m_send("-");
 	}
 	m_send("\r\n");
+
+	return State::Ok;
 }
