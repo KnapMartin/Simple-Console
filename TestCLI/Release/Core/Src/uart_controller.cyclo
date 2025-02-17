@@ -1,0 +1,16 @@
+../Core/Src/uart_controller.cpp:24:1:UartController::~UartController()	1
+../Core/Src/uart_controller.cpp:24:1:virtual UartController::~UartController()	1
+/home/knap-linux/st/stm32cubeide_1.17.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.linux64_1.1.0.202410170702/tools/arm-none-eabi/include/c++/12.3.1/bits/basic_string.h:642:7:std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	2
+../Core/Src/uart_controller.cpp:13:1:UartController::UartController()	1
+../Core/Src/uart_controller.cpp:28:6:void UartController::setHandleUart(UART_HandleTypeDef*)	1
+../Core/Src/uart_controller.cpp:33:6:void UartController::setHandleSemTx(void**)	1
+../Core/Src/uart_controller.cpp:38:6:void UartController::setHandleQueueRx(void**)	1
+../Core/Src/uart_controller.cpp:43:6:void UartController::setHandleMutexTx(void**)	1
+../Core/Src/uart_controller.cpp:48:6:bool UartController::init()	5
+../Core/Src/uart_controller.cpp:67:6:bool UartController::send(std::string)	4
+../Core/Src/uart_controller.cpp:113:13:std::string UartController::receive()	7
+../Core/Src/uart_controller.cpp:148:6:bool UartController::updateInterruptRx(UART_HandleTypeDef*)	3
+../Core/Src/uart_controller.cpp:165:6:bool UartController::updateInterruptTx(UART_HandleTypeDef*)	2
+../Core/Src/uart_controller.cpp:178:6:bool UartController::operator<<(const std::string&)	2
+../Core/Src/uart_controller.cpp:183:6:bool UartController::operator<<(const char*)	1
+../Core/Src/uart_controller.cpp:188:6:void UartController::printout(bool)	1

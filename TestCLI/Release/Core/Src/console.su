@@ -1,0 +1,15 @@
+/home/knap-linux/st/stm32cubeide_1.17.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.linux64_1.1.0.202410170702/tools/arm-none-eabi/include/c++/12.3.1/bits/basic_string.h:548:7:std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	24	static
+/home/knap-linux/st/stm32cubeide_1.17.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.linux64_1.1.0.202410170702/tools/arm-none-eabi/include/c++/12.3.1/bits/basic_string.h:642:7:std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	24	static
+/home/knap-linux/st/stm32cubeide_1.17.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.linux64_1.1.0.202410170702/tools/arm-none-eabi/include/c++/12.3.1/bits/std_function.h:241:5:std::_Function_base::~_Function_base()	8	static
+../Core/Src/console.cpp:14:1:Console::~Console()	16	static
+../Core/Src/console.cpp:14:1:virtual Console::~Console()	8	static
+/home/knap-linux/st/stm32cubeide_1.17.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.linux64_1.1.0.202410170702/tools/arm-none-eabi/include/c++/12.3.1/bits/std_function.h:386:7:)>&) [with _Res = void; _ArgTypes = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}]	16	static
+../Core/Src/console.cpp:6:1:Console::Console(SendFunction, RecieveFuncion)	16	static
+../Core/Src/console.cpp:18:16:Console::State Console::registerCommand(const std::string&, CommandFunction, uint32_t)	104	static
+/home/knap-linux/st/stm32cubeide_1.17.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.linux64_1.1.0.202410170702/tools/arm-none-eabi/include/c++/12.3.1/bits/std_function.h:587:7:) const [with _Res = void; _ArgTypes = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}]	8	static
+../Core/Src/console.cpp:48:16:Console::State Console::run()	56	static
+../Core/Src/console.cpp:93:16:Console::State Console::clear()	40	static
+../Core/Src/console.cpp:103:16:Console::State Console::setCursor(uint32_t, uint32_t)	56	static
+../Core/Src/console.cpp:121:16:Console::State Console::printRegistered()	72	static
+../Core/Src/console.cpp:134:16:Console::State Console::verticalLine()	40	static
+../Core/Src/console.cpp:33:16:Console::State Console::splash()	40	static
