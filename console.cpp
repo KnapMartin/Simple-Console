@@ -16,7 +16,7 @@ Console::~Console()
 }
 
 void Console::registerCommand(const std::string &command,
-		CommandFuncion function, const uint32_t matchLength)
+		CommandFunction function, const uint32_t matchLength)
 {
 	if (m_commandCount < CONS_MAX_COMMANDS)
 	{
@@ -47,7 +47,7 @@ void Console::run()
 	m_send("> ");
 
 	const char* commandRec = m_recieve().c_str();
-	uint32_t noMatchCtr{0};
+	uint32_t missingMatchCtr{0};
 
 	for (uint32_t commIdx{0}; commIdx < m_commandCount; ++commIdx)
 	{
@@ -62,7 +62,7 @@ void Console::run()
 			}
 			else
 			{
-				++noMatchCtr;
+				++missingMatchCtr;
 			}
 		}
 		else
@@ -73,12 +73,12 @@ void Console::run()
 			}
 			else
 			{
-				++noMatchCtr;
+				++missingMatchCtr;
 			}
 		}
 	}
 
-	if (noMatchCtr == m_commandCount)
+	if (missingMatchCtr == m_commandCount)
 	{
 		m_send("Invalid command.\r\n");
 	}
